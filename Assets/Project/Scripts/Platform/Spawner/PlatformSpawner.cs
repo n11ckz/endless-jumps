@@ -34,6 +34,7 @@ namespace Project
         public void Restore()
         {
             _startPlatform.transform.position = _spawnPoint.StartSpawnPosition;
+            _startPlatform.gameObject.Activate();
             _spawnPoint.BackToStartPosition();
             DespawnAll();
         }
@@ -44,8 +45,8 @@ namespace Project
         {
             _spawnPoint.Move();
 
-            Platform platform = _objectPool.Get();
-            platform.Released += Despawn;
+            if (!_objectPool.TryGet(out Platform platform))
+                return;
 
             if (isInstantlySpawn)
             {
@@ -58,18 +59,12 @@ namespace Project
             }
         }
 
-        private void Despawn(Platform platform)
-        {
-            platform.Released -= Despawn;
-            _objectPool.Release(platform);
-        }
-
         private void DespawnAll()
         {
             IEnumerable<Platform> activePlatforms = _objectPool.ActiveObjects;
 
             foreach (Platform platform in activePlatforms)
-                Despawn(platform);
+                platform.Release();
         }
     }
 }

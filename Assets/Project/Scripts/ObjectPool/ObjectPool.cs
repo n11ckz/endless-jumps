@@ -4,46 +4,57 @@ using UnityEngine;
 
 namespace Project
 {
-    public class ObjectPool<T> where T : MonoBehaviour, IPooledObject<T>
+    public class ObjectPool<T> where T : PooledObject
     {
-        private const int DefaultCapacity = 3;
-
+        private readonly List<T> _objects = new List<T>(24);
         private readonly Transform _parent = new GameObject($"{typeof(T).Name}Pool").transform;
 
         private readonly IPooledObjectFactory<T> _factory;
-        private readonly List<T> _objects;
 
         public IEnumerable<T> ActiveObjects => _objects.Where((pooledObject) => pooledObject.gameObject.activeInHierarchy);
 
-        public ObjectPool(IPooledObjectFactory<T> factory, int capacity, int stock)
+        private bool _isExpandable;
+
+        public ObjectPool(IPooledObjectFactory<T> factory, int stock, bool isExpandable = true)
         {
             _factory = factory;
-            _objects = new List<T>(capacity > 0 ? capacity : DefaultCapacity);
+            _isExpandable = isExpandable;
 
-            for (int i = 0; i < stock; i++)
-            {
-                T createdObject = Create();
-                Release(createdObject);
-            }
+            Fill(stock);
         }
 
-        public T Get()
+        public bool TryGet(out T freeObject)
         {
-            T freeObject = _objects.FirstOrDefault((pooledObject) => !pooledObject.gameObject.activeInHierarchy);
+            freeObject = _objects.FirstOrDefault((pooledObject) => !pooledObject.gameObject.activeInHierarchy);
 
             if (freeObject == null)
-                return Create();
+            {
+                if (_isExpandable)
+                {
+                    freeObject = Create(true);
+                    return true;
+                }
+
+                return false;
+            }
 
             freeObject.gameObject.Activate();
 
-            return freeObject;
+            return true;
         }
 
-        public void Release(T pooledObject) => pooledObject.gameObject.Deactivate();
+        private void Fill(int stock)
+        {
+            for (int i = 0; i < stock; i++)
+                Create();
+        }
 
-        private T Create()
+        private T Create(bool isActiveByDefault = false)
         {
             T createdObject = _factory.Create();
+
+            if (!isActiveByDefault)
+                createdObject.gameObject.Deactivate();
 
             createdObject.transform.SetParent(_parent);
             _objects.Add(createdObject);

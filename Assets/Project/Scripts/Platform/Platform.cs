@@ -1,15 +1,11 @@
 using PrimeTween;
-using System;
-using System.Collections;
 using UnityEngine;
 using Zenject;
 
 namespace Project
 {
-    public class Platform : MonoBehaviour, IPooledObject<Platform>
+    public class Platform : PooledObject
     {
-        public event Action<Platform> Released;
-
         [SerializeField] private PlatformTriggerArea _triggerArea;
 
         private PlatformConfig _config;
@@ -25,32 +21,31 @@ namespace Project
         private void OnEnable()
         {
             _triggerArea.CharacterEntered += StartTimer;
-            _timer.Finished += Release;
+            _timer.Finished += DropDown;
         }
 
         private void OnDisable()
         {
             _triggerArea.CharacterEntered -= StartTimer;
-            _timer.Finished -= Release;
+            _timer.Finished -= DropDown;
         }
 
-        public void DropFromAbove(Vector3 endPosition) => StartCoroutine(Drop(endPosition));
+        public void DropFromAbove(Vector3 endPosition) => Drop(endPosition, false);
 
         private void StartTimer() => _timer.Start(_config.Lifetime);
 
-        private void Release()
+        private void DropDown()
         {
             Vector3 endPosition = transform.position + _config.RelativeDropPosition;
-            StartCoroutine(Drop(endPosition, () => Released?.Invoke(this)));
+            Drop(endPosition, true);
         }
 
-        private IEnumerator Drop(Vector3 endPosition, Action callback = null)
+        private void Drop(Vector3 endPosition, bool hasCharacterStepped)
         {
             Tween tween = Tween.Position(transform, endPosition, _config.DropDuration, _config.DropEase);
 
-            yield return tween.ToYieldInstruction();
-
-            callback?.Invoke();
+            if (hasCharacterStepped)
+                tween.OnComplete(() => Release());
         }
     }
 }

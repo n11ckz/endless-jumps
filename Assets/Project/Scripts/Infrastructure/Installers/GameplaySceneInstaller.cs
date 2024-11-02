@@ -35,7 +35,7 @@ namespace Project
         private void BindObjectPool()
         {
             Container.Bind<IPooledObjectFactory<Platform>>().To<PlatformFactory>().AsSingle();
-            Container.Bind<ObjectPool<Platform>>().AsSingle().WithArguments(24, 16);
+            Container.Bind<ObjectPool<Platform>>().AsSingle().WithArguments(16);
         }
 
         private void BindSpawner() => Container.BindInstance(_platformSpawner).AsSingle();
