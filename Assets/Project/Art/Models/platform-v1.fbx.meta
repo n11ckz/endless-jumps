@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9df6aed71f6afab47bac124245baeb27
+guid: 2c3202b565f4be747bb2043960310c78
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: character-v1-texture.png
-    second: {fileID: 2100000, guid: adc00fa5537b6a1459b490d2875303a8, type: 2}
+      name: platform-v1-texture.png
+    second: {fileID: 2100000, guid: 1ed13cee782660546b43a3dbb192b9dd, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -83,7 +83,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
-  importAnimation: 0
+  importAnimation: 1
   humanDescription:
     serializedVersion: 3
     human: []

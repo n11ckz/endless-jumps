@@ -66,7 +66,7 @@ PrefabInstance:
     - target: {fileID: 3311366335962116606, guid: 137b8ab830e404442813cdb37901cd95,
         type: 3}
       propertyPath: m_Center.z
-      value: 1.2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3797037373576711430, guid: 137b8ab830e404442813cdb37901cd95,
         type: 3}
@@ -108,4 +108,4 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.15
-  m_Center: {x: 1.2, y: 0.5, z: 0}
+  m_Center: {x: 1.5, y: 0.5, z: 0}
