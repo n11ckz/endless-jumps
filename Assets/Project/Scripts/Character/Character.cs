@@ -6,7 +6,7 @@ namespace Project
     [SelectionBase]
     public class Character : MonoBehaviour
     {
-        public event Action Destroyed;
+        public event Action Deactivated;
 
         [SerializeField] private CharacterAnimator _animator;
         [SerializeField] private CharacterMovement _movement;
@@ -15,24 +15,23 @@ namespace Project
 
         private void Awake() => _startPosition = transform.position;
 
-        public void Initialize()
+        public void Activate()
         {
-            if (!gameObject.activeInHierarchy)
-                gameObject.Activate();
-            
+            _movement.Activate();
             _animator.Activate();
         }
 
-        public void ActivateMovement() => _movement.RestoreJump();
-
-        public void DeactivateAnimator() => _animator.Deactivate();
-
-        public void Destroy()
+        public void Deactivate()
         {
+            _animator.Deactivate();
             gameObject.Deactivate();
-            Destroyed?.Invoke();
+            Deactivated?.Invoke();
         }
 
-        public void Restore() => transform.position = _startPosition;
+        public void Restore()
+        {
+            transform.position = _startPosition;
+            gameObject.Activate();
+        }
     }
 }

@@ -29,8 +29,7 @@ namespace Project
         protected override void Process(Character character)
         {
             _cameraHandler.SetFollowedTarget(null);
-            character.DeactivateAnimator();
-            Tween.Delay(_delayAfterEntering, () => character.Destroy());
+            Tween.Delay(_delayAfterEntering, () => character.Deactivate());
         }
     }
 }

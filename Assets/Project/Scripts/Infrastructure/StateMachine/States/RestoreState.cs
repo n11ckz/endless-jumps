@@ -1,41 +1,40 @@
 using System.Collections;
-using UnityEngine;
 
 namespace Project
 {
-    public class CleanupState : IState
+    public class RestoreState : IState
     {
         private readonly StateMachine _stateMachine;
         private readonly Character _character;
         private readonly PlatformSpawner _platformSpawner;
+        private readonly CameraHandler _cameraHandler;
         private readonly Curtain _curtain;
         private readonly ICoroutineRunner _coroutineRunner;
 
-        public CleanupState(StateMachine stateMachine, Character character, PlatformSpawner platformSpawner, Curtain curtain, ICoroutineRunner coroutineRunner)
+        public RestoreState(StateMachine stateMachine, Character character, PlatformSpawner platformSpawner, CameraHandler cameraHandler,
+            Curtain curtain, ICoroutineRunner coroutineRunner)
         {
             _stateMachine = stateMachine;
             _character = character;
             _platformSpawner = platformSpawner;
+            _cameraHandler = cameraHandler;
             _curtain = curtain;
             _coroutineRunner = coroutineRunner;
         }
 
-        public void Enter()
-        {
-            Debug.Log($"Enter into {nameof(CleanupState)}");
-            _coroutineRunner.StartCoroutine(Cleanup());
-        }
+        public void Enter() => _coroutineRunner.StartCoroutine(Restore());
 
-        public void Exit() => Debug.Log($"Exit from {nameof(CleanupState)}");
+        public void Exit() { }
 
-        private IEnumerator Cleanup()
+        private IEnumerator Restore()
         {
             yield return _curtain.Show();
 
             _platformSpawner.Restore();
             _character.Restore();
+            _cameraHandler.SetFollowedTarget(_character.transform);
 
-            _stateMachine.Enter<InitializeState>();
+            _stateMachine.Enter<SetupState>();
         }
     }
 }

@@ -3,7 +3,7 @@ using Zenject;
 
 namespace Project
 {
-    public class GameplaySceneInstaller : MonoInstaller
+    public class GameplayInstaller : MonoInstaller
     {
         [SerializeField] private Grid _grid;
         [SerializeField] private Character _character;

@@ -19,11 +19,16 @@ namespace Project
 
         private void Initialize()
         {
-            _stateMachine.AddState(_stateFactory.Create<InitializeState>());
-            _stateMachine.AddState(_stateFactory.Create<GameplayState>());
-            _stateMachine.AddState(_stateFactory.Create<CleanupState>());
+            RegisterStates();
+            _stateMachine.Enter<SetupState>();
+        }
 
-            _stateMachine.Enter<InitializeState>();
+        private void RegisterStates()
+        {
+            _stateMachine.AddState(_stateFactory.Create<SetupState>());
+            _stateMachine.AddState(_stateFactory.Create<GameplayState>());
+            _stateMachine.AddState(_stateFactory.Create<LoseState>());
+            _stateMachine.AddState(_stateFactory.Create<RestoreState>());
         }
     }
 }

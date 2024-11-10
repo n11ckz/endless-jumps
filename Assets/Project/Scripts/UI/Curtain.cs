@@ -15,20 +15,18 @@ namespace Project
 
         public IEnumerator Show()
         {
-            gameObject.Activate();
             IsHidden = false;
+            gameObject.Activate();
 
-            Tween tween = Tween.Alpha(_canvasGroup, 1.0f, _fadeDuration);
-
-            return tween.ToYieldInstruction();
+            return Tween.Alpha(_canvasGroup, 1.0f, _fadeDuration).ToYieldInstruction();
         }
 
-        public void HideWithDelay() => Tween.Delay(_delayBeforeHide, () => Hide());
-
-        private void Hide()
+        public void HideWithDelay()
         {
-            Tween.Alpha(_canvasGroup, 0.0f, _fadeDuration).OnComplete(() => gameObject.Deactivate());
             IsHidden = true;
+            Tween.Delay(_delayBeforeHide, () => Hide());
         }
+
+        private void Hide() => Tween.Alpha(_canvasGroup, 0.0f, _fadeDuration).OnComplete(() => gameObject.Deactivate());
     }
 }

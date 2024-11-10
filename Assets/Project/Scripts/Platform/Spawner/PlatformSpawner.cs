@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -25,7 +24,7 @@ namespace Project
 
         private void OnDisable() => _characterMovement.Jumped -= SpawnWithDropAnimation;
 
-        public void Initialize()
+        public void SpawnInitialPlatforms()
         {
             for (int i = 0; i < _stock; i++)
                 Spawn(true);
@@ -44,9 +43,7 @@ namespace Project
         private void Spawn(bool isInstantlySpawn)
         {
             _spawnPoint.Move();
-
-            if (!_objectPool.TryGet(out Platform platform))
-                return;
+            _objectPool.TryGet(out Platform platform);
 
             if (isInstantlySpawn)
             {
@@ -61,9 +58,7 @@ namespace Project
 
         private void DespawnAll()
         {
-            IEnumerable<Platform> activePlatforms = _objectPool.ActiveObjects;
-
-            foreach (Platform platform in activePlatforms)
+            foreach (Platform platform in _objectPool.ActiveObjects)
                 platform.Release();
         }
     }

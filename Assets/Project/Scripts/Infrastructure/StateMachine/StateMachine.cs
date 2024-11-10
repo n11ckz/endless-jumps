@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Project
 {
@@ -12,22 +13,20 @@ namespace Project
         public void AddState(IState state)
         {
             Type stateType = state.GetType();
-
-            if (_states.ContainsKey(stateType))
-                return;
-
-            _states.Add(stateType, state);
+            _states.TryAdd(stateType, state);
         }
 
         public void Enter<T>() where T : IState
         {
-            if (!_states.TryGetValue(typeof(T), out IState state))
-                return;
-
             _currentState?.Exit();
 
-            _currentState = state;
+            if (!_states.TryGetValue(typeof(T), out IState state))
+            {
+                Debug.LogError($"{typeof(T).Name} not found");
+                return;
+            }
 
+            _currentState = state;
             _currentState.Enter();
         }
     }

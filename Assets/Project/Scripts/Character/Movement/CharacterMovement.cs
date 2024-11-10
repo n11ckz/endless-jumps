@@ -28,13 +28,13 @@ namespace Project
             _positionCalculator = positionCalculator;
         }
 
-        private void OnEnable() => _input.DirectionReceived += Jump;
+        private void OnEnable() => _input.DirectionReceived += TryJump;
 
-        private void OnDisable() => _input.DirectionReceived -= Jump;
+        private void OnDisable() => _input.DirectionReceived -= TryJump;
 
-        public void RestoreJump() => _canJump = true;
+        public void Activate() => _canJump = true;
 
-        private void Jump(Direction direction)
+        private void TryJump(Direction direction)
         {
             if (!_canJump)
                 return;

@@ -30,8 +30,6 @@ namespace Project
                 yield return null;
 
             _curtain.HideWithDelay();
-
-            Debug.Log("Scene is loaded");
         }
     }
 }
