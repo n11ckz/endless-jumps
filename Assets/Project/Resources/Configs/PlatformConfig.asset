@@ -12,7 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb831621592e8e84dbd1716d55b0c5ea, type: 3}
   m_Name: PlatformConfig
   m_EditorClassIdentifier: 
-  <Lifetime>k__BackingField: 1
+  <LifetimeCurve>k__BackingField:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.7
+      inSlope: -0.00054999994
+      outSlope: -0.00054999994
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1000
+      value: 0.15
+      inSlope: -0.00054999994
+      outSlope: -0.00054999994
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   <DropDuration>k__BackingField: 0.375
   <RelativeDropPosition>k__BackingField: {x: 0, y: -2, z: 0}
   <DropEase>k__BackingField: 6

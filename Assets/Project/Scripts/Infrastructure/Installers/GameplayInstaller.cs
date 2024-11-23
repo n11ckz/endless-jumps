@@ -9,6 +9,7 @@ namespace Project
         [SerializeField] private Character _character;
         [SerializeField] private PlatformSpawner _platformSpawner;
         [SerializeField] private CameraHandler _cameraHandler;
+        [SerializeField] private ScoreView _scoreView;
 
         public override void InstallBindings()
         {
@@ -18,6 +19,7 @@ namespace Project
             BindObjectPool();
             BindCameraHandler();
             BindCaclucaltor();
+            BindScore();
         }
 
         private void BindInfrastructure()
@@ -43,5 +45,12 @@ namespace Project
         private void BindCameraHandler() => Container.BindInstance(_cameraHandler).AsSingle();
 
         private void BindCaclucaltor() => Container.Bind<IPositionCalculator>().To<GridPositionCalculator>().AsSingle().WithArguments(_grid);
+
+        private void BindScore()
+        {
+            Container.BindInterfacesAndSelfTo<Score>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ScoreCounter>().AsSingle().NonLazy();
+            Container.BindInstance(_scoreView).AsSingle();
+        }
     }
 }

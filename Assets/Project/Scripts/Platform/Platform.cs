@@ -10,12 +10,14 @@ namespace Project
 
         private PlatformConfig _config;
         private Timer _timer;
+        private IScore _score;
 
         [Inject]
-        private void Construct(PlatformConfig config, Timer timer)
+        private void Construct(PlatformConfig config, Timer timer, IScore score)
         {
             _config = config;
             _timer = timer;
+            _score = score;
         }
 
         private void OnEnable()
@@ -32,7 +34,11 @@ namespace Project
 
         public void DropFromAbove(Vector3 endPosition) => Drop(endPosition, false);
 
-        private void StartTimer() => _timer.Start(_config.Lifetime);
+        private void StartTimer()
+        {
+            float lifetime = _config.LifetimeCurve.Evaluate(_score.CurrentScore);
+            _timer.Start(lifetime);
+        }
 
         private void DropDown()
         {

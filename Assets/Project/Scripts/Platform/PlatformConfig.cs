@@ -7,7 +7,7 @@ namespace Project
     public class PlatformConfig : ScriptableObject
     {
         [field: Header("Base Stats")]
-        [field: SerializeField, Min(0.1f)] public float Lifetime { get; private set; }
+        [field: SerializeField] public AnimationCurve LifetimeCurve { get; private set; }
 
         [field: Header("Animations Stats")]
         [field: SerializeField, Range(0.0f, 1.2f)] public float DropDuration { get; private set; }
