@@ -37,7 +37,7 @@ namespace Project
             _cameraHandler.SetFollowedTarget(_character.transform);
             _score.Restore();
 
-            _stateMachine.Enter<SetupState>();
+            _stateMachine.Enter<DataSaveState>();
         }
     }
 }

@@ -20,15 +20,17 @@ namespace Project
         private void Initialize()
         {
             RegisterStates();
-            _stateMachine.Enter<SetupState>();
+            _stateMachine.Enter<DataLoadState>();
         }
 
         private void RegisterStates()
         {
+            _stateMachine.AddState(_stateFactory.Create<DataLoadState>());
             _stateMachine.AddState(_stateFactory.Create<SetupState>());
             _stateMachine.AddState(_stateFactory.Create<GameplayState>());
             _stateMachine.AddState(_stateFactory.Create<LoseState>());
             _stateMachine.AddState(_stateFactory.Create<RestoreState>());
+            _stateMachine.AddState(_stateFactory.Create<DataSaveState>());
         }
     }
 }

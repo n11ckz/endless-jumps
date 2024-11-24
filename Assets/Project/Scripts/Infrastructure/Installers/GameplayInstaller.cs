@@ -20,6 +20,7 @@ namespace Project
             BindCameraHandler();
             BindCaclucaltor();
             BindScore();
+            BindSaveLoader();
         }
 
         private void BindInfrastructure()
@@ -51,6 +52,13 @@ namespace Project
             Container.BindInterfacesAndSelfTo<Score>().AsSingle();
             Container.BindInterfacesAndSelfTo<ScoreCounter>().AsSingle().NonLazy();
             Container.BindInstance(_scoreView).AsSingle();
+        }
+
+        private void BindSaveLoader()
+        {
+            Container.Bind<DataPresenter>().AsSingle();
+            Container.Bind<ISaveStrategy>().To<SaveInPrefsStrategy>().AsSingle();
+            Container.Bind<Saver>().AsSingle();
         }
     }
 }
